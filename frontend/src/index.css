@@ -1,0 +1,59 @@
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-track {
+  box-shadow: inset 0 0 2px #1312128e;
+  background: #1312128e;
+  /* border-radius: 10px; */
+}
+
+::-webkit-scrollbar-thumb {
+  background: #1312128e;
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #313030;
+}
+
+.css-r05uro-MuiInputBase-root-MuiInput-root:before,
+.css-k21ip2-MuiInputBase-root-MuiInput-root:before {
+  border-bottom: 1.5px solid rgb(243 243 243) !important;
+}
+
+input,
+.css-aqpgxn-MuiFormLabel-root-MuiInputLabel-root,
+.css-u4tvz2-MuiFormLabel-root,
+.css-mk9tez-MuiFormLabel-root-MuiInputLabel-root,
+.css-1r74e2h-MuiFormLabel-root-MuiInputLabel-root,
+.css-j204z7-MuiFormControlLabel-root .MuiFormControlLabel-label,
+.css-1hbvpl3-MuiSvgIcon-root,
+.dmajdp>span,
+.css-1yo9785-MuiFormLabel-root-MuiInputLabel-root,
+.css-18nu0jg-MuiFormLabel-root-MuiInputLabel-root {
+  color: #e7e7e7 !important;
+}
+
+.lkjDVC {
+  border: dashed 2px #ed6c02 !important;
+}
+
+.css-1r74e2h-MuiFormLabel-root-MuiInputLabel-root {
+  color: #ed6c02 !important;
+}
