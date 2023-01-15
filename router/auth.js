@@ -44,7 +44,7 @@ router.post('/signin', async (req, res) => {
         if (userLogin) {
             const checkPasword = await bcrypt.compare(password, userLogin.password)
             token = await userLogin.generateAuthToken()
-            checkPasword ? res.status(200).json({ "message": "Signin Success ", "status": "success", "token": token }) : res.status(400).json({ "message": "Invalid Credentials" })
+            checkPasword ? res.status(200).json({ "message": "Signin Success ", "status": "success", "token": token }) : res.status(400).json({ "message": "Invalid Credentials", "status": "error" })
         } else {
             res.status(400).json({ "message": "Invalid Credentials", "status": "error" })
         }
