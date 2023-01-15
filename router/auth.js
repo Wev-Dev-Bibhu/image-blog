@@ -4,21 +4,15 @@ const bcrypt = require('bcryptjs')
 const router = express.Router()
 require('../db/conn')
 const User = require('../model/userSchema')
-// MiddleWare
-// const middleware = (req, res, next) => {
-//     console.log('MiddleWare')
-//     next
-// }
-// middleware()
-router.use(function (req, res, next) {
-    res.header("Access-Control-Allow-Origin", "*"); // update to match the domain you will make the request from
-    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-    next();
-});
+const authenticatePage = require('../middleware/authenticate')
 
-router.get('/', (req, res) => {
-    res.send(`Hello world From Server Router`)
+router.use(function (req, res, next) {
+    res.header("Access-Control-Allow-Origin", "http://localhost:3000") // update to match the domain you will make the request from
+    res.header('Access-Control-Allow-Credentials', true);
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept")
+    next()
 })
+
 
 router.post('/signup', async (req, res) => {
     const { username, email, gender, phone, password, cpassword } = req.body
@@ -29,7 +23,7 @@ router.post('/signup', async (req, res) => {
     } else {
         try {
             const userExist = await User.findOne({ email: email })
-            if (userExist) return res.status(422).json({ error: "Email Already Present" })
+            if (userExist) return res.status(422).json({ "message": "Email Already Present", "status": "error" })
             const user = new User({ username, email, gender, phone, password, cpassword })
             // Saving into DB
             await user.save()
@@ -50,11 +44,7 @@ router.post('/signin', async (req, res) => {
         if (userLogin) {
             const checkPasword = await bcrypt.compare(password, userLogin.password)
             token = await userLogin.generateAuthToken()
-            res.cookie("PVtwHJZqfg", token, {
-                expires: new Date(Date.now() + 25892000000),
-                httpOnly: true
-            })
-            checkPasword ? res.status(200).json({ "message": "Signin Success ", "status": "success" }) : res.status(400).json({ "message": "Invalid Credentials em" })
+            checkPasword ? res.status(200).json({ "message": "Signin Success ", "status": "success", "token": token }) : res.status(400).json({ "message": "Invalid Credentials" })
         } else {
             res.status(400).json({ "message": "Invalid Credentials", "status": "error" })
         }
@@ -65,18 +55,23 @@ router.post('/signin', async (req, res) => {
 
 router.post('/upload', (req, res) => {
     if (req.files === null) {
-        return res.status(400).json({ msg: 'No file uploaded' });
+        return res.status(400).json({ msg: 'No file uploaded' })
     }
-
-    const file = req.files.file;
+    const file = req.files.file
 
     file.mv(`${__dirname}/client/public/uploads/${file.name}`, err => {
         if (err) {
-            console.error(err);
-            return res.status(500).send(err);
+            console.error(err)
+            return res.status(500).send(err)
         }
+        res.json({ fileName: file.name, filePath: `/uploads/${file.name}` })
+    })
+})
 
-        res.json({ fileName: file.name, filePath: `/uploads/${file.name}` });
-    });
-});
+
+router.get('/about', authenticatePage, (req, res) => {
+    res.send(req.rootUser)
+})
+
+
 module.exports = router
