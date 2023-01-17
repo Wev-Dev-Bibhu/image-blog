@@ -11,6 +11,10 @@ router.use(function (req, res, next) {
     res.header("Access-Control-Allow-Origin", "https://image-blog-site.netlify.app/signin") // update to match the domain you will make the request from
     res.header("Access-Control-Allow-Origin", "https://image-blog-site.netlify.app/signup") // update to match the domain you will make the request from
     res.header("Access-Control-Allow-Origin", "https://image-blog-site.netlify.app/about") // update to match the domain you will make the request from
+    res.header("Access-Control-Allow-Origin", "https://image-blog.onrender.com/about'") // update to match the domain you will make the request from
+    res.header("Access-Control-Allow-Origin", "https://image-blog.onrender.com/about'/signin") // update to match the domain you will make the request from
+    res.header("Access-Control-Allow-Origin", "https://image-blog.onrender.com/about'/signup") // update to match the domain you will make the request from
+    res.header("Access-Control-Allow-Origin", "https://image-blog.onrender.com/about'/about")
     res.header('Access-Control-Allow-Credentials', true);
     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept")
     next()
