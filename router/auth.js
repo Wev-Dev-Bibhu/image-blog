@@ -7,6 +7,10 @@ const User = require('../model/userSchema')
 const authenticatePage = require('../middleware/authenticate')
 
 router.use(function (req, res, next) {
+    res.header("Access-Control-Allow-Origin", "https://image-blog-site.netlify.app") // update to match the domain you will make the request from
+    res.header("Access-Control-Allow-Origin", "https://image-blog-site.netlify.app/signin") // update to match the domain you will make the request from
+    res.header("Access-Control-Allow-Origin", "https://image-blog-site.netlify.app/signup") // update to match the domain you will make the request from
+    res.header("Access-Control-Allow-Origin", "https://image-blog-site.netlify.app/about") // update to match the domain you will make the request from
     res.header("Access-Control-Allow-Origin", "https://image-blog.onrender.com") // update to match the domain you will make the request from
     res.header("Access-Control-Allow-Origin", "https://image-blog.onrender.com/signin") // update to match the domain you will make the request from
     res.header("Access-Control-Allow-Origin", "https://image-blog.onrender.com/signup") // update to match the domain you will make the request from
