@@ -6,19 +6,15 @@ require('../db/conn')
 const User = require('../model/userSchema')
 const authenticatePage = require('../middleware/authenticate')
 
+
+
 router.use(function (req, res, next) {
-    res.header("Access-Control-Allow-Origin", "https://image-blog-site.netlify.app") // update to match the domain you will make the request from
-    res.header("Access-Control-Allow-Origin", "https://image-blog-site.netlify.app/signin") // update to match the domain you will make the request from
-    res.header("Access-Control-Allow-Origin", "https://image-blog-site.netlify.app/signup") // update to match the domain you will make the request from
-    res.header("Access-Control-Allow-Origin", "https://image-blog-site.netlify.app/about") // update to match the domain you will make the request from
-    res.header("Access-Control-Allow-Origin", "https://image-blog.onrender.com") // update to match the domain you will make the request from
-    res.header("Access-Control-Allow-Origin", "https://image-blog.onrender.com/signin") // update to match the domain you will make the request from
-    res.header("Access-Control-Allow-Origin", "https://image-blog.onrender.com/signup") // update to match the domain you will make the request from
-    res.header("Access-Control-Allow-Origin", "https://image-blog.onrender.com/about")
-    res.header('Access-Control-Allow-Credentials', true);
-    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept")
-    next()
-})
+    res.setHeader("Access-Control-Allow-Origin", 'https://image-blog-site.netlify.app');
+    res.setHeader('Access-Control-Allow-Methods', 'POST,GET');
+    res.setHeader('Access-Control-Allow-Credentials', true);
+    res.setHeader("Access-Control-Allow-Headers", "Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With, Access-Control-Allow-Origin");
+    next();
+});
 
 
 router.post('/signup', async (req, res) => {
@@ -43,6 +39,7 @@ router.post('/signup', async (req, res) => {
 })
 
 router.post('/signin', async (req, res) => {
+    res.setHeader("Access-Control-Allow-Headers", "Access-Control-Allow-Headers, Origin,Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers");
     try {
         const { email, password } = req.body
         let token
