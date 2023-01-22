@@ -27,6 +27,11 @@ const userSchema = new mongoose.Schema({
         type: String,
         required: true
     },
+    likesPics: [{
+        photos: {
+            type: String
+        }
+    }],
     tokens: [{
         token: {
             type: String,

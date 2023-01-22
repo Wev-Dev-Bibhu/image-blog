@@ -2,11 +2,8 @@ const jwt = require('jsonwebtoken')
 const User = require('../model/userSchema')
 
 const authenticatePage = async (req, res, next) => {
-    // console.log(req)
-    // console.log(req.headers['cookie'])
-    // next
     try {
-        const token = req.headers['cookie'].replace("token=", "")
+        const token = req.query.token
         const verifyToken = jwt.verify(token, process.env.SECRET_KEY)
         const rootUser = await User.findOne({ _id: verifyToken._id, "tokens.token": token })
         if (!rootUser) {
