@@ -11,7 +11,6 @@ const authenticatePage = async (req, res, next) => {
         }
         req.token = token
         req.rootUser = rootUser
-        req.userID = rootUser._id
         next()
     } catch (error) {
         res.status(401).send('Unauthorized Token')

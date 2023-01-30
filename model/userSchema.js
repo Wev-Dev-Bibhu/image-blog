@@ -7,6 +7,10 @@ const userSchema = new mongoose.Schema({
         type: String,
         required: true
     },
+    fullname: {
+        type: String,
+        required: true
+    },
     email: {
         type: String,
         required: true
@@ -27,8 +31,32 @@ const userSchema = new mongoose.Schema({
         type: String,
         required: true
     },
+    profileurl: {
+        type: String,
+    },
     likesPics: [{
-        photos: {
+        id: {
+            type: String
+        },
+        updatedAt: {
+            type: String
+        },
+        description: {
+            type: String
+        },
+        altDescription: {
+            type: String
+        },
+        userName: {
+            type: String
+        },
+        firstName: {
+            type: String
+        },
+        userProfileImg: {
+            type: String
+        },
+        image: {
             type: String
         }
     }],
@@ -61,5 +89,39 @@ userSchema.methods.generateAuthToken = async function () {
     }
 }
 
+userSchema.methods.saveLikedPhotos = async function (id, updatedAt, description, altDescription, userName, firstName, userProfileImg, image) {
+    try {
+        const userLogin = await User.findOne({ 'likesPics.id': id })
+        if (!userLogin) {
+            this.likesPics = this.likesPics.concat({
+                id: id,
+                updatedAt: updatedAt,
+                description: description,
+                altDescription: altDescription,
+                userName: userName,
+                firstName: firstName,
+                userProfileImg: userProfileImg,
+                image: image
+            })
+            await this.save()
+        }
+    } catch (error) {
+        return error
+    }
+}
+
+userSchema.methods.uploadProfilePhoto = async (username, imgId) => {
+    try {
+        const profileImageUrl = "https://drive.google.com/uc?id=" + imgId
+        const res = await User.findByIdAndUpdate(username, { 'profileurl': profileImageUrl }, { new: true })
+        if (res) {
+            return res.profileurl
+        } else {
+            "error"
+        }
+    } catch (error) {
+        return error
+    }
+}
 const User = mongoose.model('USER', userSchema)
 module.exports = User
