@@ -49,7 +49,7 @@ router.use(express.urlencoded({ extended: true }));
 
 router.use(function (req, res, next) {
     res.setHeader("Access-Control-Allow-Origin", 'https://image-blog-site.netlify.app');
-    res.setHeader('Access-Control-Allow-Methods', 'POST,GET');
+    res.setHeader('Access-Control-Allow-Methods', 'POST,GET,DELETE');
     res.setHeader('Access-Control-Allow-Credentials', true);
     res.setHeader("Access-Control-Allow-Headers", "Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With, Access-Control-Allow-Origin");
     next();
@@ -114,6 +114,21 @@ router.post('/upload', upload.any(), async (req, res) => {
     }
 })
 
+router.delete('/delete-profile/:userID/:imgId', async (req, res) => {
+    const { userID, imgId } = req.params
+    await google.drive({ version: "v3", auth }).files.delete({
+        fileId: imgId
+    })
+    const userLogin = await User.findOne({ username: userID })
+    console.log(userID, imgId)
+    const imgUrl = await userLogin.uploadProfilePhoto(userLogin._id, "NULL")
+    if (imgUrl) {
+        res.status(200).json({ "message": "Profile Updated ", "status": "success", "imgUrl": imgUrl })
+    } else {
+        res.status(400).json({ "message": "Upload Failed ", "status": "error" })
+    }
+
+})
 
 router.get('/dashboard', authenticatePage, (req, res) => {
     res.send(req.rootUser)
