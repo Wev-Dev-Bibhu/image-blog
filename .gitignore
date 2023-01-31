@@ -1,1 +1,4 @@
 .env
+.env
+/router/credentials.json
+node_modules
