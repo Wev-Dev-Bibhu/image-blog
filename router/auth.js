@@ -35,7 +35,6 @@ const uploadFile = async (fileObject, userID) => {
             },
             fields: "id,name",
         });
-        console.log(`Uploaded file ${data.name} ${data.id} ${userID}`)
         const userLogin = await User.findOne({ username: userID })
         const imgUrl = await userLogin.uploadProfilePhoto(userLogin._id, data.id)
         return imgUrl
@@ -115,19 +114,22 @@ router.post('/upload', upload.any(), async (req, res) => {
 })
 
 router.delete('/delete-profile/:userID/:imgId', async (req, res) => {
-    const { userID, imgId } = req.params
-    await google.drive({ version: "v3", auth }).files.delete({
-        fileId: imgId
-    })
-    const userLogin = await User.findOne({ username: userID })
-    console.log(userID, imgId)
-    const imgUrl = await userLogin.uploadProfilePhoto(userLogin._id, "NULL")
-    if (imgUrl) {
-        res.status(200).json({ "message": "Profile Updated ", "status": "success", "imgUrl": imgUrl })
-    } else {
+    try {
+        const { userID, imgId } = req.params
+        await google.drive({ version: "v3", auth }).files.delete({
+            fileId: imgId
+        })
+        const userLogin = await User.findOne({ username: userID })
+        const imgUrl = await userLogin.uploadProfilePhoto(userLogin._id, "NULL")
+        if (imgUrl) {
+            res.status(200).json({ "message": "Profile Updated ", "status": "success", "imgUrl": imgUrl })
+        } else {
+            res.status(400).json({ "message": "Upload Failed ", "status": "error" })
+        }
+    } catch (error) {
+        console.log(error)
         res.status(400).json({ "message": "Upload Failed ", "status": "error" })
     }
-
 })
 
 router.get('/dashboard', authenticatePage, (req, res) => {

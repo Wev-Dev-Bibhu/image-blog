@@ -112,12 +112,7 @@ userSchema.methods.saveLikedPhotos = async function (id, updatedAt, description,
 
 userSchema.methods.uploadProfilePhoto = async (username, imgId) => {
     try {
-        let profileImageUrl
-        if (imgId != "NULL") {
-            profileImageUrl = "https://drive.google.com/uc?id=" + imgId
-        } else {
-            profileImageUrl = "NULL"
-        }
+        const profileImageUrl = "https://drive.google.com/uc?id=" + imgId
         const res = await User.findByIdAndUpdate(username, { 'profileurl': profileImageUrl }, { new: true })
         if (res) {
             return res.profileurl
